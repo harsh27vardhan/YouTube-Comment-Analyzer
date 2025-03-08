@@ -11,7 +11,7 @@ function App() {
       const videoId = input.split("?v=")?.[1];
       if (videoId) {
         try {
-          const response = await axios.get(`http://localhost:3000/search/${videoId}`)
+          const response = await axios.get(`https://youtube-comment-analyzer-t8uv.onrender.com/search/${videoId}`)
           const data = response.data;
           // console.log(data);
           const categoryCounts = { "Agree": 0, "Disagree": 0, "Neutral": 0 };
