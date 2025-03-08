@@ -106,7 +106,9 @@ server.get("/search/:videoId", async (req, res) => {
 
     // Ensure all comments are collected before calling processComments
     const results = await processComments(comments);
-    res.json(results);
+    console.log("------------------");
+    // console.log(results, comments);
+    res.json({ results, comments });
   } catch (error) {
     console.error("Error fetching comments:", error);
     res.status(500).json({ error: "Internal Server Error" });

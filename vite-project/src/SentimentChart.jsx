@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Bar, Pie } from "react-chartjs-2";
 import {
     Chart as ChartJS,
@@ -14,7 +14,8 @@ import {
 // Register necessary Chart.js components
 ChartJS.register(CategoryScale, LinearScale, BarElement, ArcElement, Title, Tooltip, Legend);
 
-const SentimentChart = ({ sentimentData }) => {
+const SentimentChart = ({ sentimentData, comments }) => {
+    // console.log(sentimentData, comments);
     // Prepare Bar Chart data
     const barData = {
         labels: ["Agree", "Neutral", "Disagree"],
@@ -55,6 +56,8 @@ const SentimentChart = ({ sentimentData }) => {
         },
     };
 
+    const [showComments, setShowComments] = useState(false);
+
     return (
         <div className="w-full max-w-2xl mx-auto mt-8 p-6 bg-white shadow-2xl rounded-lg border border-gray-200">
             <h2 className="text-2xl font-semibold text-center text-gray-800 mb-6">
@@ -92,6 +95,14 @@ const SentimentChart = ({ sentimentData }) => {
                     </div>
                 </div>
             </div>
+
+            {showComments === false ? <button className="flex m-auto mt-10 bg-gray-300 p-2 rounded" onClick={() => { setShowComments(true) }}>Show All Comments</button> : (
+                <ul className="border border-gray-500 p-4 mt-8">
+                    <button className="flex m-auto bg-gray-300 p-2 rounded" onClick={() => { setShowComments(false) }}>Hide Comments</button>
+                    {comments.map((comment, index) => <li key={index}>{comment}</li>)}
+                </ul>
+            )}
+
         </div>
     );
 };

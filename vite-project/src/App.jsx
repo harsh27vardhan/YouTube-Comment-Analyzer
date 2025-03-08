@@ -5,6 +5,7 @@ import SentimentChart from "./SentimentChart";
 function App() {
   const [input, setInput] = useState("");
   const [sentimentData, setSentimentData] = useState(null);
+  const [comments, setComments] = useState(null);
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (input != "") {
@@ -12,17 +13,19 @@ function App() {
       if (videoId) {
         try {
           const response = await axios.get(`https://youtube-comment-analyzer-t8uv.onrender.com/search/${videoId}`)
-          const data = response.data;
+          // const response = await axios.get(`http://localhost:3000/search/${videoId}`)
+          const commentAnalysis = response.data.results;
           // console.log(data);
           const categoryCounts = { "Agree": 0, "Disagree": 0, "Neutral": 0 };
 
-          data.forEach(item => {
+          commentAnalysis.forEach(item => {
             if (categoryCounts[item] !== undefined) {
               categoryCounts[item]++;
             }
           });
           // console.log(categoryCounts);
           setSentimentData(categoryCounts);
+          setComments(response.data.comments)
         }
         catch (err) {
           console.log("Error", err);
@@ -51,7 +54,7 @@ function App() {
           Analyze Comments
         </button>
       </form>
-      {sentimentData && <SentimentChart sentimentData={sentimentData} />}
+      {sentimentData && <SentimentChart sentimentData={sentimentData} comments={comments} />}
     </div>
   );
 }
